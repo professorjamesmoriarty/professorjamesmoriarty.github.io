@@ -1,56 +1,49 @@
 ---
-layout: home
-title: Shaggy
+layout: default
 ---
 
-<div class="topbar">
-    <div class="topbar-mine">Shaggy</div>
-    <div class="topbar-button">
-        <a href="{{ site.url }}/index.html">Home</a>
-    </div>
-    <div class="topbar-button">
-        <a href="{{ site.url }}/tags.html">Tags</a>
-    </div>
-    <div class="topbar-button">
-        <a href="{{ site.url }}/about.html">About</a>
-    </div>
-</div>
+<div class="posts">
+  {% for post in paginator.posts %}
+    <article class="post">
+      <a href="{{ site.baseurl }}{{ post.url }}">
+        <h1>{{ post.title }}</h1>
 
-<div class="slogan">
-    I do many things.
-</div>
-
-<ul>
-
-    {% for post in site.posts %}
-
-    <li class="post-line">
-        <a
-            class="post-title"
-            href="{{ site.baseurl }}{{ post.url }}"
-        >
-            {{ post.title }}
-        </a>
-
-        <div class="post-summary">
-            {{ post.content | strip_html | truncate: 200, " ..." }}
+        <div>
+          <p class="post_date">{{ post.date | date: "%B %e, %Y" }}</p>
         </div>
-        <div class="post-info">
-            <div class="category-area">
-                {% for category in post.categories %}
-                <a href="{{ site.url }}/tags.html#{{ category }}">
-                    <div class="category">
-                        {{ category }}
-                    </div>
-                </a>
-                {% endfor %}
-            </div>
-            <div class="post-date">
-                {{ post.date | date: "%Y-%m-%d" }}
-            </div>
-        </div>
-    </li>
+      </a>
+      <div class="entry">
+        {{ post.excerpt }}
+      </div>
 
+      <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
+    </article>
+  {% endfor %}
+
+  <!-- pagination -->
+  {% if paginator.total_pages > 1 %}
+  <div class="pagination">
+    {% if paginator.previous_page %}
+      <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&laquo; Prev</a>
+    {% else %}
+      <span>&laquo; Prev</span>
+    {% endif %}
+
+    {% for page in (1..paginator.total_pages) %}
+      {% if page == paginator.page %}
+        <span class="webjeda">{{ page }}</span>
+      {% elsif page == 1 %}
+        <a href="{{ '/' | prepend: site.baseurl | replace: '//', '/' }}">{{ page }}</a>
+      {% else %}
+        <a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a>
+      {% endif %}
     {% endfor %}
 
-</ul>
+    {% if paginator.next_page %}
+      <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Next &raquo;</a>
+    {% else %}
+      <span>Next &raquo;</span>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
