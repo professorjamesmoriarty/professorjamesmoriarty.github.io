@@ -1,0 +1,19 @@
+url: //shaggytwodope.github.io
+
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+webrick:
+  headers:
+    Access-Control-Allow-Origin: "*"
+  
+plugins:
+  - jekyll-gist
+  - jekyll-sitemap
+  - jemoji
+  - jekyll-feed
+
+  
